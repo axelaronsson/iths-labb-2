@@ -1,10 +1,37 @@
-import { useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import Form from './components/Form';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'set_from': {
+      return {
+        from: action.payload,
+        to: state.to
+      };
+    }
+    case 'set_to': {
+      return {
+        from: state.from,
+        to: action.payload
+      };
+    }
+  }
+  throw Error('Unknown action: ' + action.type);
+}
+
+const initialState = {from: 'EUR', to: 'SEK'};
+
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const handleSelect = (e) => {
+    dispatch({
+      type: 'set_' + e.target.name,
+      payload: e.target.value
+    });
+  }
 
   useEffect(() => {
     fetch('http://localhost:3000/eur')
@@ -22,7 +49,7 @@ function App() {
   return (
     <>
       <h1>Valutaomvandlare</h1>
-      <Form />
+      <Form exchangeVars={state} handleSelect={handleSelect} />
     </>
   );
 }

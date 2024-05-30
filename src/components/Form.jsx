@@ -1,12 +1,12 @@
 import CurrencyPicker from "./CurrencyPicker";
 
-function Form() {
+function Form({handleSelect, exchangeVars}) {
 
     return (
       <>
-        <CurrencyPicker selectedCurrency={'EUR'} />
+        <CurrencyPicker name={'from'} handleSelect={handleSelect} selectedCurrency={exchangeVars.from} />
         <input name="from" type="text" />
-        <CurrencyPicker selectedCurrency={'SEK'} />
+        <CurrencyPicker name={'to'} handleSelect={handleSelect} selectedCurrency={exchangeVars.to} />
         <input name="to" type="text" />
       </>
     );
