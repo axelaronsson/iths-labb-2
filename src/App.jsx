@@ -7,21 +7,29 @@ function reducer(state, action) {
   switch (action.type) {
     case 'set_from': {
       return {
+        ...state,
         from: action.payload,
         to: state.to
       };
     }
     case 'set_to': {
       return {
+        ...state,
         from: state.from,
         to: action.payload
+      };
+    }
+    case 'init_data': {
+      return {
+        ...state,
+        data: action.payload
       };
     }
   }
   throw Error('Unknown action: ' + action.type);
 }
 
-const initialState = {from: 'EUR', to: 'SEK'};
+const initialState = {from: 'EUR', to: 'SEK', data: null};
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -34,7 +42,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch('http://localhost:3000/eur')
+    fetch('http://localhost:3000/' + state.from.toLowerCase())
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -42,14 +50,18 @@ function App() {
       return response.json();
     })
     .then((response) => {
-      console.log(response.usd);
+      dispatch({
+        type: 'init_data',
+        payload: response
+      });
     });
-  }, [])
+
+  }, [state.from])
 
   return (
     <>
       <h1>Valutaomvandlare</h1>
-      <Form exchangeVars={state} handleSelect={handleSelect} />
+      <Form data={state.data} exchangeVars={state} handleSelect={handleSelect} />
     </>
   );
 }

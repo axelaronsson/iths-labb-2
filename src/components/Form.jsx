@@ -1,13 +1,23 @@
+import { useState, useEffect } from "react";
 import CurrencyPicker from "./CurrencyPicker";
 
-function Form({handleSelect, exchangeVars}) {
+function Form({handleSelect, exchangeVars, data}) {
+const [inputVal, setInputVal] = useState('')
+const [toVal, setToVal] = useState(0)
+
+useEffect(() => {
+  if (data) {
+    setToVal(inputVal * data[exchangeVars.to.toLowerCase()])
+  }
+
+}, [inputVal, exchangeVars])
 
     return (
       <>
         <CurrencyPicker name={'from'} handleSelect={handleSelect} selectedCurrency={exchangeVars.from} />
-        <input name="from" type="text" />
+        <input value={inputVal} onChange={(e) => {setInputVal(e.target.value)}} name="from" type="text" />
         <CurrencyPicker name={'to'} handleSelect={handleSelect} selectedCurrency={exchangeVars.to} />
-        <input name="to" type="text" />
+        <input readOnly value={toVal.toFixed(2)} name="to" type="text" />
       </>
     );
   }

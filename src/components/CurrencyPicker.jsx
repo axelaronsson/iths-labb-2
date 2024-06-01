@@ -1,7 +1,6 @@
 function CurrencyPicker({selectedCurrency, handleSelect, name}) {
     const currencies = ['SEK', 'EUR', 'USD']
 
-    // const selectRef = useRef(null);
     return (
       <>
         <select value={selectedCurrency} onChange={handleSelect} name={name} id="">
