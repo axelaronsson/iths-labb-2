@@ -1,25 +1,30 @@
 import { useEffect, useReducer } from 'react';
 import Form from './components/Form';
 import './App.css'
-
+import styled from 'styled-components';
 
 function reducer(state, action) {
+  // console.log(action);
   switch (action.type) {
     case 'set_from': {
       return {
         ...state,
-        from: action.payload,
-        to: state.to
+        currencies: {
+          from: action.payload,
+          to: state.currencies.to
+        }
       };
     }
     case 'set_to': {
       return {
         ...state,
-        from: state.from,
-        to: action.payload
+        currencies: {
+          from: state.currencies.from,
+          to: action.payload
+        }
       };
     }
-    case 'init_data': {
+    case 'set_data': {
       return {
         ...state,
         data: action.payload
@@ -29,7 +34,13 @@ function reducer(state, action) {
   throw Error('Unknown action: ' + action.type);
 }
 
-const initialState = {from: 'EUR', to: 'SEK', data: null};
+const initialState = {data: null, currencies: {from: 'EUR', to: 'SEK'}};
+
+const Title = styled.h1`
+font-size: 1.5em;
+text-align: center;
+color: #BF4F74;
+`;
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -42,7 +53,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch('http://localhost:3000/' + state.from.toLowerCase())
+    fetch('http://localhost:3000/' + state.currencies.from.toLowerCase())
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -50,18 +61,20 @@ function App() {
       return response.json();
     })
     .then((response) => {
+      // console.log(response);
       dispatch({
-        type: 'init_data',
+        type: 'set_data',
         payload: response
       });
     });
 
-  }, [state.from])
+  }, [state.currencies.from])
+
 
   return (
     <>
-      <h1>Valutaomvandlare</h1>
-      <Form data={state.data} exchangeVars={state} handleSelect={handleSelect} />
+      <Title>Valutaomvandlare</Title>
+      <Form data={state.data} exchangeVars={state.currencies} handleSelect={handleSelect} />
     </>
   );
 }

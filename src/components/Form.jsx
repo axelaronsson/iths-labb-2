@@ -9,8 +9,7 @@ useEffect(() => {
   if (data) {
     setToVal(inputVal * data[exchangeVars.to.toLowerCase()])
   }
-
-}, [inputVal, exchangeVars])
+}, [inputVal, exchangeVars, data])
 
     return (
       <>
