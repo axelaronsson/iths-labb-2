@@ -1,9 +1,10 @@
 import { useEffect, useReducer, createContext, useState } from "react";
-import Form from "./components/Form";
-import ModeButton from "./components/ModeButton";
-import Display from "./components/Display";
-import "./App.css";
+import Form from "./Form";
+import ModeButton from "./ModeButton";
+import Display from "./Display";
+import "../App.css";
 import styled from "styled-components";
+import getUrl from "../helpers/getUrl";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -49,6 +50,8 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isDarkMode, setMode] = useState(false);
 
+  const devMode = false;
+
   const handleSelect = (e) => {
     dispatch({
       type: "set_" + e.target.name,
@@ -57,7 +60,9 @@ function App() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/" + state.currencies.from.toLowerCase())
+    const currencyProp = state.currencies.from.toLowerCase();
+    const url = getUrl(currencyProp, devMode);
+    fetch(url)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -65,9 +70,10 @@ function App() {
         return response.json();
       })
       .then((response) => {
+        console.log(response);
         dispatch({
           type: "set_data",
-          payload: response,
+          payload: response[currencyProp],
         });
       });
   }, [state.currencies.from]);

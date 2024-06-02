@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import CurrencyPicker from "./CurrencyPicker";
 import styled from "styled-components";
-import { ThemeContext } from "../App";
+import { ThemeContext } from "./App";
 
 const StyledInput = styled.input`
   padding: 0.5em;

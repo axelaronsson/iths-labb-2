@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ThemeContext } from "../App";
+import { ThemeContext } from "./App";
 import { useContext } from "react";
 
 const StyledSelect = styled.select`
@@ -9,7 +9,7 @@ const StyledSelect = styled.select`
 `;
 
 function CurrencyPicker({ selectedCurrency, handleSelect, name }) {
-  const currencies = ["SEK", "EUR", "USD"];
+  const currencies = ["SEK", "EUR", "USD", "GBP", "AUD"];
   const theme = useContext(ThemeContext);
 
   return (

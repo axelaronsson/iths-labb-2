@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run start\" \"npx json-server src/db.json\"",
-    "start": "vite",
+    "start": "concurrently \"npm run dev\" \"npx json-server src/db.json\"",
+    "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
