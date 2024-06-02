@@ -13,6 +13,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.app {
+  height: 80vh;
+  width: 100vw;
+  padding-top: 20vh;
+  margin-top: -10vh;
+}
+
+.light {
+  background-color: white;
+}
+
+.dark {
+  background-color: rgb(93, 92, 92);
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -33,6 +48,7 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin: 0px;
 }
 
 button {
